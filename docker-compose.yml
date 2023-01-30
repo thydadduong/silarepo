@@ -1,0 +1,54 @@
+version: '3.5'
+
+services:
+
+  service-app1:
+    image: nexus.mydevops.bio:7777/app1:0.0.1
+    ports:
+      - 6001:80
+    deploy:
+      mode: global
+      #replicas: 2
+      update_config:
+        parallelism: 1
+        order: start-first
+        failure_action: rollback
+      restart_policy:
+        condition: on-failure
+
+  service-app2:
+    image: nexus.mydevops.bio:7777/app2:0.0.1
+    ports:
+      - 6002:80
+    deploy:
+      mode: global
+      #replicas: 1
+      update_config:
+        parallelism: 1
+        order: start-first
+        failure_action: rollback
+      restart_policy:
+        condition: on-failure
+
+  service-chat:
+    image: nexus.mydevops.bio:7778/chat:0.0.1
+    ports:
+      - 6003:80
+    deploy:
+      mode: global
+      #replicas: 1
+      update_config:
+        parallelism: 1
+        order: start-first
+        failure_action: rollback
+      restart_policy:
+        condition: on-failure
+
+#  haproxy:
+#    ports:
+#      - "80:80"
+#    image: oudamdevops/haproxy:latest
+#    deploy:
+#      mode: global
+#      update_config:
+#        parallelism: 1
